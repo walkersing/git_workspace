@@ -39,8 +39,8 @@ import com.kuci.image.util.FileUtil;
 public class UploadController extends GlobalBase {
 
 	// 上传商城文件
-	@RequestMapping(value = "/uploadFile.jhtml", method = RequestMethod.POST)
-	public @ResponseBody FlashUploadResult uploadFile(@RequestParam("videoFile") MultipartFile uploadFile,
+	@RequestMapping(value = "/uploadFile.jhtml")
+	public FlashUploadResult uploadFile(@RequestParam("videoFile") MultipartFile uploadFile,
 			@RequestParam(value = "yun", required = false) Integer yun,Model model) {
 		FlashUploadResult result= upload(Upload.普通文件目录, uploadFile, yun);
 		return result;

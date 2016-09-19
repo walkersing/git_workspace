@@ -36,14 +36,14 @@ public class RoleInterceptor extends GlobalBase implements HandlerInterceptor  {
 		// 如果没有标识权限,可随意访问
 		if (methodRoles == null && classRoles == null) {
 			logger.info("No role control.");
-			return false;
+			return true;
 		}
 
 		ROLE role = (methodRoles != null) ? methodRoles.value() : classRoles.value();
 		// 如果权限限制任意,也可随意访问
 		if (role == ROLE.ANYONE) {
 			logger.info("Any role control.");
-			return false;
+			return true;
 		}
 
 		if (role == ROLE.ONLY_IP && !Utils.isValidIp(request)) {
