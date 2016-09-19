@@ -40,7 +40,7 @@ public class UploadController extends GlobalBase {
 
 	// 上传商城文件
 	@RequestMapping(value = "/uploadFile.jhtml")
-	public FlashUploadResult uploadFile(@RequestParam("videoFile") MultipartFile uploadFile,
+	public @ResponseBody FlashUploadResult uploadFile(@RequestParam("videoFile") MultipartFile uploadFile,
 			@RequestParam(value = "yun", required = false) Integer yun,Model model) {
 		FlashUploadResult result= upload(Upload.普通文件目录, uploadFile, yun);
 		return result;
