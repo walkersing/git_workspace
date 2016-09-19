@@ -1,16 +1,17 @@
 package com.kuci.image.service;
 
-import java.awt.Color;
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
 import com.kuci.common.CommonConstants;
 import com.kuci.common.GlobalBase;
 import com.kuci.image.model.ImageInfo;
 import com.kuci.image.mthread.ImageHandleThread;
 import com.kuci.image.util.FileUtil;
+import com.kuci.image.util.SysConfig;
+
+import java.awt.*;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author walkersing
@@ -36,10 +37,6 @@ public abstract class ImageHandle extends GlobalBase {
 	
 	/**
 	 * 压缩图片
-	 * @param original
-	 * @param compressed
-	 * @param newWidth
-	 * @param quality
 	 */
 	public abstract boolean compressImg(String srcPath, String descPath,int width,int height);
 	
@@ -200,17 +197,13 @@ public abstract class ImageHandle extends GlobalBase {
 	/**
 	 * 
 	 * @param imagePath 移动图片时所需要传的图片路径
-	 * @param type    参数为1时代表只移动不删除，参数为2时代表移动并删除
-	 * @param request
-	 * @param response
-	 * @param model
 	 * @throws IOException 
 	 */
 	public void deleteImageByUrl(String imagePath) throws IOException{	
 		List<Integer> imgSizes = new ArrayList<Integer>();
 		imgSizes = CommonConstants.GOODS_FIRST_IMG_SIZE;
 		
-		File  resFile =  new File(CommonConstants.PROJECT_PATH + imagePath);
+		File  resFile =  new File(SysConfig.getInstance().getConfig("upload.root.dir") + imagePath);
 		if(resFile.exists()){
 			resFile.delete();
 		}	

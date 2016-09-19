@@ -1,6 +1,8 @@
 
 package com.kuci.common;
 
+import com.kuci.image.util.SysConfig;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,12 +16,9 @@ import java.util.List;
  * desc：
  */
 public class CommonConstants {
-	
-	public static String PROJECT_PATH = "";
-	
-	// 上传文件路径
-	public static final String UPLOAD_PATH = "/"; 
-	
+
+	public final static String PROJECT_PATH = SysConfig.getInstance().getConfig("upload.root.dir");
+
 	//图片规格
 	public static final int IMG_50 = 50;
 	

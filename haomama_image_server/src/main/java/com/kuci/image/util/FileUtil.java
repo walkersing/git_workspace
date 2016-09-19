@@ -1,21 +1,15 @@
 package com.kuci.image.util;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.URL;
-import java.util.HashMap;
-import java.util.Map;
-
+import com.kuci.common.annotation.Upload;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.tomcat.util.http.fileupload.FileUploadException;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.kuci.common.CommonConstants;
-import com.kuci.common.annotation.Upload;
+import java.io.*;
+import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author walkersing at 2010-11-29  下午09:09:34
@@ -49,22 +43,22 @@ public class FileUtil {
 	/**
 	 * 上传文件
 	 * @param file
-	 * @param request
 	 * @param pFolder
+	 * @param sonP
 	 * @return
 	 */
 	public static String uploadFile(MultipartFile file,Upload pFolder,String... sonP) throws FileUploadException{
 		String path = null;
 		try {
 			if(file != null && file.getBytes().length > 0){
-				//上传根目录
-				String uploadRootFoloder = CommonConstants.PROJECT_PATH +CommonConstants.UPLOAD_PATH;
-				//随机目录
+				//上传域名根目录
+				String uploadRootFolder = SysConfig.getInstance().getConfig("upload.root.dir");
+				//域名文件真实随机目录
 			    String randomPath= pFolder.getPath() +DateUtil.getDate("yyyyMMdd")+"/";
-			    //文件父目录
-				String fileParentFolder = uploadRootFoloder + randomPath;
-				//相对文件父目录
-				String relupfileParentFolder=CommonConstants.UPLOAD_PATH + randomPath;
+			    //文件绝对路径目录
+				String fileParentFolder = uploadRootFolder + randomPath;
+				//文件相对路径目录
+				String relUpFileParentFolder = File.separatorChar + randomPath;
 				
 				File folderF = new File(fileParentFolder);
 				if(!folderF.exists()){
@@ -86,14 +80,14 @@ public class FileUtil {
 					//写文件
 					InputStream ins = file.getInputStream();
 		            OutputStream os = new FileOutputStream(fileParentFolder + File.separatorChar + newFileName);
-		            int bytesRead = 0;
+		            int bytesRead;
 		            byte[] buffer = new byte[1024];
 		            while ((bytesRead = ins.read(buffer, 0, 1024)) != -1) {
 		                os.write(buffer, 0, bytesRead);
 		            }
 		            os.close();
 		            ins.close();
-		            path = relupfileParentFolder + newFileName;
+		            path = relUpFileParentFolder + newFileName;
 		            upload_msg.put("original",file.getOriginalFilename());
 		            upload_msg.put("title",file.getOriginalFilename());
 		            upload_msg.put("fileType",fileSuffix);
@@ -171,7 +165,7 @@ public class FileUtil {
 	
 	/**
 	 * 文件夹是否存在，不存在创建
-	 * @param f
+	 * @param path
 	 */
 	public static void folderIsExistOrCreate(String path){
 		File f = new File(path);
