@@ -1,0 +1,1 @@
+package com.kuci.image.service;/** * @author walkersing * * on:下午6:47:30  */public class ImageHandleFactory {	private static ImageHandle imageHandle = null;		public static ImageHandle getInstance(){		if(imageHandle ==null)			imageHandle = new ImageMagicImageHandle();				return imageHandle;	}}
